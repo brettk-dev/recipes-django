@@ -1,20 +1,20 @@
+from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
-from profiles.forms import LoginForm
+from profiles.forms import LoginForm, RegisterForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
-from django.http import HttpResponse
 from django.shortcuts import render
 
 
 @login_required
-def profile(_):
-    return HttpResponse("Your profile page.")
+def profile(request):
+    return render(request, "profiles/profile.html")
 
 
 class Register(CreateView):
     template_name = "profiles/register.html"
-    form_class = LoginForm
+    form_class = RegisterForm
     success_url = reverse_lazy("profiles:login")
 
 

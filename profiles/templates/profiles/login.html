@@ -2,29 +2,27 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-10 col-sm-6">
-        <h2 class="my-5">Login</h2>
+<h2 class="my-5">Login</h2>
 
-        <ul class="list-group mb-3">
-            {% for error in errors %}
-            <li class="list-group-item list-group-item-danger">{{error}}</li>
-            {% endfor %}
-        </ul>
-        <div class="card">
+<ul class="list-group mb-3">
+    {% for error in errors %}
+    <li class="list-group-item list-group-item-danger">{{error}}</li>
+    {% endfor %}
+</ul>
+<div class="card">
+    <div class="card-body">
+        <form method="POST">
             {% csrf_token %}
-            <div class="card-body">
-                {%crispy form%}
-                <div class="d-flex width-100">
-                    <a href="{{ register }}" class="btn btn-link">Not registered?</a>
-                    <div class="flex-grow-1"></div>
-                    <a href="{{ next }}" class="btn btn-link">Cancel</a>
-                    <button type="submit" class="btn btn-primary">
-                        Login
-                    </button>
-                </div>
+            {% crispy form %}
+            <div class="d-flex width-100">
+                <a href="{% url "profiles:register" %}" class="btn btn-link">Not registered?</a>
+                <div class="flex-grow-1"></div>
+                <a href="{{ next }}" class="btn btn-link">Cancel</a>
+                <button type="submit" class="btn btn-primary">
+                    Login
+                </button>
             </div>
-        </div>
+        </form>
     </div>
 </div>
 {% endblock %}

@@ -123,16 +123,20 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = "/static/"
+STATICFILES_DIRS = [
+    BASE_DIR / "static"
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# Login redirects
+# Auth redirects
 
-LOGIN_URL = reverse_lazy("login")
-LOGIN_REDIRECT_URL = "/"
+LOGIN_URL = reverse_lazy("profiles:login")
+LOGIN_REDIRECT_URL = reverse_lazy("profiles:profile")
+LOGOUT_REDIRECT_URL = reverse_lazy("profiles:login")
 
 # Crispy Forms settings
 
