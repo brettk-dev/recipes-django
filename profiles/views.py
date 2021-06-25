@@ -9,7 +9,8 @@ from django.shortcuts import render
 
 @login_required
 def profile(request):
-    return render(request, "profiles/profile.html")
+    full_name = f"{request.user.first_name} {request.user.last_name}"
+    return render(request, "profiles/profile.html", {"title": full_name})
 
 
 class Register(CreateView):
@@ -17,7 +18,17 @@ class Register(CreateView):
     form_class = RegisterForm
     success_url = reverse_lazy("profiles:login")
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Register"
+        return context
+
 
 class Login(LoginView):
     template_name = "profiles/login.html"
     form_class = LoginForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Login"
+        return context
