@@ -2,8 +2,8 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<form>
-    <div class="row">
+<form method="POST">
+    <div class="row mb-3">
         <div class="col-12">
             {% crispy recipe_form %}
         </div>
@@ -12,35 +12,55 @@
     <h3 class="h5">
         Ingredients
     </h3>
-    {% for ingredient_form in ingredient_forms %}
-    <div class="row">
-        {% crispy ingredient_form %}
-    </div>
-    {% endfor %}
-    <div class="d-flex justify-content-end">
-        <button class="btn btn-secondary">
-            Add New Ingredient
-        </button>
+    {% crispy ingredient_form_set ingredient_helper %}
+
+    <div class="row justify-content-end">
+        <div class="col-auto">
+            <button type="button" class="btn btn-secondary" id="addIngredientButton">
+                + New Ingredient
+            </button>
+        </div>
     </div>
 
     <h3 class="h5">
         Steps
     </h3>
-    {% for step_form in step_forms %}
-    <div class="row">
-        <div class="col-1 d-flex align-items-center justify-content-center mb-3">
-            #
-        </div>
-        <div class="col-1 d-flex align-items-center justify-content-center mb-3">
+    {{ step_form_set.management_form|crispy }}
+    {% for step_form in step_form_set %}
+    <div class="row align-items-center step_forms">
+        <div class="col-1 d-flex justify-content-center mb-3">
             {{ forloop.counter }}
         </div>
-        {% crispy step_form %}
+        {% crispy step_form step_helper %}
+        <div class="col-1 d-flex justify-content-center mb-3">
+            #
+        </div>
+    </div>
+
+    <div class="row justify-content-end">
+        <div class="col-auto">
+            <button type="button" class="btn btn-secondary" id="addStepButton">
+                + New Step
+            </button>
+        </div>
     </div>
     {% endfor %}
-    <div class="d-flex justify-content-end">
-        <button class="btn btn-secondary">
-            Add New Step
-        </button>
+
+    <div class="row my-5 justify-content-end">
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">
+                Save Recipe
+            </button>
+        </div>
     </div>
 </form>
+
+<script>
+    document.querySelector('#addIngredientButton').addEventListener('click', () => {
+            addForm('ingredient')
+        })
+        document.querySelector('#addStepButton').addEventListener('click', () => {
+                addForm('step')
+            })
+</script>
 {% endblock %}

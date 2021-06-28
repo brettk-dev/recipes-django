@@ -9,7 +9,7 @@ class Recipe(models.Model):
 
 class Ingredient(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
-    qty = models.IntegerField()
+    qty = models.FloatField()
     unit = models.CharField(max_length=20)
     name = models.CharField(max_length=150)
 
