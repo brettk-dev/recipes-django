@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<form method="POST">
+<form method="POST" id="recipeForm">
     <div class="row mb-3">
         <div class="col-12">
             {% crispy recipe_form %}
@@ -57,10 +57,16 @@
 
 <script>
     document.querySelector('#addIngredientButton').addEventListener('click', () => {
-            addForm('ingredient')
+        addForm('ingredient')
+    })
+    document.querySelector('#addStepButton').addEventListener('click', () => {
+        addForm('step')
+    })
+    document.querySelector('#recipeForm').addEventListener('submit', () => {
+        const stepForms = document.querySelectorAll(`.step_forms`)
+        stepForms.forEach((stepForm, index) => {
+            stepForm.querySelector(`[name="step-${index}-number"]`).value = index + 1
         })
-        document.querySelector('#addStepButton').addEventListener('click', () => {
-                addForm('step')
-            })
+    })
 </script>
 {% endblock %}

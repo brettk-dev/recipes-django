@@ -1,6 +1,6 @@
 from crispy_bootstrap5.bootstrap5 import FloatingField
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Div, Field, Layout
+from crispy_forms.layout import Div, Field, Hidden, Layout
 from django.forms.models import ModelForm, modelformset_factory
 from django.forms.widgets import HiddenInput
 
@@ -19,7 +19,8 @@ class RecipeForm(ModelForm):
         self.helper.form_tag = False
 
 
-IngredientFormSet = modelformset_factory(Ingredient, fields=["qty", "unit", "name"])
+IngredientFormSet = modelformset_factory(
+    Ingredient, fields=["qty", "unit", "name"])
 
 
 class IngredientFormSetHelper(FormHelper):
