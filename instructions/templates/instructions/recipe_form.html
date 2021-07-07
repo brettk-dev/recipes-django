@@ -65,7 +65,9 @@
     document.querySelector('#recipeForm').addEventListener('submit', () => {
         const stepForms = document.querySelectorAll(`.step_forms`)
         stepForms.forEach((stepForm, index) => {
-            stepForm.querySelector(`[name="step-${index}-number"]`).value = index + 1
+            if (stepForm.querySelector(`[name="step-${index}-description"]`).value) {
+                stepForm.querySelector(`[name="step-${index}-number"]`).value = index + 1
+            }
         })
     })
 </script>

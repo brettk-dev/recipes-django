@@ -1,26 +1,13 @@
 from crispy_bootstrap5.bootstrap5 import FloatingField
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Div, Field, Hidden, Layout
-from django.forms.models import ModelForm, modelformset_factory
-from django.forms.widgets import HiddenInput
+from django.forms.models import ModelForm, inlineformset_factory
 
 from .models import Ingredient, Recipe, Step
 
 
-class RecipeForm(ModelForm):
-    class Meta:
-        model = Recipe
-        fields = ["name"]
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.layout = Layout(FloatingField("name"))
-        self.helper.form_tag = False
-
-
-IngredientFormSet = modelformset_factory(
-    Ingredient, fields=["qty", "unit", "name"])
+IngredientFormSet = inlineformset_factory(
+    Recipe, Ingredient, fields=["qty", "unit", "name"], extra=1)
 
 
 class IngredientFormSetHelper(FormHelper):
@@ -37,7 +24,8 @@ class IngredientFormSetHelper(FormHelper):
         self.form_tag = False
 
 
-StepFormSet = modelformset_factory(Step, fields=["number", "description"])
+StepFormSet = inlineformset_factory(
+    Recipe, Step, fields=["number", "description"], extra=1)
 
 
 class StepFormSetHelper(FormHelper):
@@ -49,3 +37,15 @@ class StepFormSetHelper(FormHelper):
             Div(FloatingField("description"), css_class="col-10"),
         )
         self.form_tag = False
+
+
+class RecipeForm(ModelForm):
+    class Meta:
+        model = Recipe
+        fields = ["name"]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(FloatingField("name"))
+        self.helper.form_tag = False

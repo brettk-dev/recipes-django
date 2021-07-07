@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<a href="{% url 'recipes:create' %}">+ Recipe</a>
+
+<div class="list-group">
+    {% for recipe in recipe_list %}
+    <a href="{{ recipe.get_absolute_url }}" class="list-group-item list-group-item-action">
+        {{ recipe.name }}
+    </a>
+    {% endfor %}
+</div>
+
+{% endblock %}

@@ -3,12 +3,16 @@
 {% block content %}
 <h1>{{ recipe.name }}</h1>
 
-<pre>{{ recipe.ingredient_set.all }}</pre>
-
 <ul>
 	{% for ingredient in recipe.ingredient_set.all %}
 	<li>{{ ingredient.qty}} {{ ingredient.unit }} - {{ ingredient.name }}</li>
 	{% endfor %}
 </ul>
+
+<ol>
+	{% for step in recipe.step_set.all %}
+	<li>{{ step.description }}</li>
+	{% endfor %}
+</ol>
 
 {% endblock %}
