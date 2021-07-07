@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>{{ recipe.name }}</h1>
+<a href="{% url 'recipes:list' %}">All Recipes</a>
 
 <ul>
 	{% for ingredient in recipe.ingredient_set.all %}

@@ -1,5 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import DetailView, ListView
 from django.views.generic.base import View
 from pprint import pprint
@@ -46,8 +46,6 @@ class RecipeCreate(LoginRequiredMixin, View):
             for step in steps:
                 step.recipe = recipe
                 step.save()
-            # TODO The ingredients and steps are not being associated with the recipe
-            recipe.save()
             return redirect(recipe)
         context = {
             "recipe_form": recipe_form,
@@ -59,12 +57,23 @@ class RecipeCreate(LoginRequiredMixin, View):
         return render(request, self.template_name, context)
 
 
-class RecipeDetail(DetailView):
+class RecipeDetail(LoginRequiredMixin, DetailView):
     model = Recipe
 
+    def get_queryset(self):
+        return Recipe.objects.filter(pk=self.kwargs[self.pk_url_kwarg], user=self.request.user)
 
-class RecipeList(ListView):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = self.object.name
+        return context
+
+
+class RecipeList(LoginRequiredMixin, ListView):
     model = Recipe
+
+    def get_queryset(self):
+        return Recipe.objects.filter(user=self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
